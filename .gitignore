@@ -7,3 +7,4 @@ node_modules/
 local_config/
 dst/
 output
+rules

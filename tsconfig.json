@@ -4,6 +4,7 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",
     "target": "es2017",
     "outDir": "dst",

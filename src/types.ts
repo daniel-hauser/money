@@ -16,6 +16,7 @@ export interface TransactionRow extends Transaction {
   companyId: CompanyTypes;
   hash: string;
   uniqueId: string;
+  tags?: Array<string>;
 }
 
 export interface AccountScrapeResult {

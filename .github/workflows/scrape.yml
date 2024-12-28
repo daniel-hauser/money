@@ -35,8 +35,12 @@ jobs:
       - name: Pull image
         run: docker pull ${{ env.REGISTRY }}/${{ steps.normalize-repository-name.outputs.repository }}:latest
 
+      - name: Set up Google Credentials
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS }}" > google-credentials.json
+
       - name: Run scraper
         run: docker run --rm
+          -v $PWD/google-credentials.json:/app/google-credentials.json
           -e DEBUG
           -e DAYS_BACK
           -e TZ
@@ -47,6 +51,9 @@ jobs:
           -e GOOGLE_SHEET_ID
           -e GOOGLE_SERVICE_ACCOUNT_EMAIL
           -e GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+          -e GOOGLE_SHEET_ID_RULES
+          -e GOOGLE_WORKSHEET_NAME_RULES
+          -e GOOGLE_APPLICATION_CREDENTIALS
           -e ACCOUNTS_TO_SCRAPE
           -e ADE_DATABASE_NAME
           -e ADE_TABLE_NAME
@@ -77,6 +84,9 @@ jobs:
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+          GOOGLE_SHEET_ID_RULES: ${{ secrets.GOOGLE_SHEET_ID_RULES }}
+          GOOGLE_WORKSHEET_NAME_RULES: ${{ secrets.GOOGLE_WORKSHEET_NAME_RULES }}
+          GOOGLE_APPLICATION_CREDENTIALS: "/app/google-credentials.json"
           ADE_DATABASE_NAME: ${{ secrets.ADE_DATABASE_NAME }}
           ADE_TABLE_NAME: ${{ secrets.ADE_TABLE_NAME }}
           ADE_INGESTION_MAPPING: ${{ secrets.ADE_INGESTION_MAPPING }}
@@ -93,3 +103,6 @@ jobs:
           TRANSACTION_HASH_TYPE: ${{ secrets.TRANSACTION_HASH_TYPE }}
           WEB_POST_URL: ${{ secrets.WEB_POST_URL }}
           MAX_PARALLEL_SCRAPERS: ${{ github.event.inputs.parallelScrapes || env.MAX_PARALLEL_SCRAPERS }}
+
+      - name: Clean up Google Credentials 
+        run: rm google-credentials.json

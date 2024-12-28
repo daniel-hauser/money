@@ -11,6 +11,7 @@ import { transactionHash, transactionUniqueId } from "./utils.js";
 import { YNABStorage } from "./ynab.js";
 import { BuxferStorage } from "./buxfer.js";
 import { WebPostStorage } from "./web-post.js";
+import { TransactionRuleEngine } from "../rule-engine/transactionRuleEngine.js";
 import { saving } from "../messages.js";
 import { createLogger } from "../../utils/logger.js";
 import { statsString } from "../saveStats.js";
@@ -28,16 +29,22 @@ export const storages = [
   new WebPostStorage(),
 ].filter((s) => s.canSave());
 
+const storageRuleEngine = new TransactionRuleEngine();
+
 export async function saveResults(results: Array<AccountScrapeResult>) {
   if (storages.length === 0) {
     await send("No storages found, skipping save");
     return;
   }
 
-  const txns = resultsToTransactions(results);
+  let txns = resultsToTransactions(results);
   if (txns.length === 0) {
     await send("No transactions found, skipping save");
     return;
+  }
+
+  if (storageRuleEngine.canApplyRules()) {
+    txns = await storageRuleEngine.applyRules(txns);
   }
 
   await parallel(

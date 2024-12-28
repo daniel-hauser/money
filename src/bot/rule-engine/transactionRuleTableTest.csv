@@ -1,0 +1,4 @@
+,,,,,,
+Table: MoneymanTransactions,Condition,Condition,Condition,Action,Action,Action
+,descriptionIncludes($param),account == $param,chargedAmount >= $param,tag($param),type = $param,status = $param
+Rule1,"""cellcom""","""account2""",400,"""utilities / electric""",,

@@ -41,6 +41,7 @@
     "hash-it": "^6.0.0",
     "israeli-bank-scrapers": "^5.2.0",
     "telegraf": "^4.16.3",
+    "trool": "^3.0.2",
     "ynab": "^2.6.0"
   },
   "devDependencies": {

@@ -270,3 +270,40 @@ Example:
   "5897": "123456"
 }
 ```
+
+## Define Transaction Rules - WIP
+
+### Rules Setup
+
+1. Follow the instructions [here](https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication?id=setting-up-your-quotapplicationquot) to create a google service account.
+2. Download the JSON key file of the service account to your local machine. Use a local script to create an escaped JSON string version of this file (Double quotes must be escaped).
+3. Create a [new sheet](https://sheets.new/) and share it with your service account using the `GOOGLE_SERVICE_ACCOUNT_EMAIL`.
+4. Create a rules sheet following the format described in the [Trool package](https://github.com/seanpmaxwell/Trool), or copy this [template sheet](https://docs.google.com/spreadsheets/d/1p0i4c0RcmTdC0pZjwUCDIjNhAOn5dPDdplQ9_wU24vM/edit?usp=sharing) to get started.
+5. Define the business logic of the transaction rules. Any method on the MoneymanTransaction class can be invoked by the rules engine and provided with args defined on the relevant CSV table columns.
+
+6. Use the following env vars to setup:
+
+| env variable name             | description                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
+| `GOOGLE_SHEET_ID_RULES`       | The id of the spreadsheet shared with the service account that contains the rules sheet    |
+| `GOOGLE_WORKSHEET_NAME_RULES` | The name of the rules sheet that contains the transaction rules                            |
+
+- If running locally add the following env var as well:
+
+| env variable name                | description                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------------ |
+| `GOOGLE_APPLICATION_CREDENTIALS` | The absolute path to the JSON key file of the google service account (Read by Google Auth) |
+
+- If running from Github Actions add the following env var instead (A file would be created and it's path would be set by the 'Scrape' Workflow):
+
+| env variable name    | description                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------------------ |
+| `GOOGLE_CREDENTIALS` | The contents of the downloaded JSON key file of the google account - Must be escaped string (!!) |
+
+### Use Cases
+
+1. Setting custom transaction tags according multiple conditionals
+2. Adding custom memo text to better describe a transaction
+3. Setting transaction types
+4. Overriding transaction categories that are set by the handling institution
+5. TBD
