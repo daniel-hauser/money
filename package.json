@@ -39,7 +39,7 @@
     "google-auth-library": "^9.14.2",
     "google-spreadsheet": "^4.1.4",
     "hash-it": "^6.0.0",
-    "israeli-bank-scrapers": "^5.2.0",
+    "israeli-bank-scrapers": "^5.2.3",
     "telegraf": "^4.16.3",
     "ynab": "^2.6.0"
   },
