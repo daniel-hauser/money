@@ -54,7 +54,7 @@
     "prettier": "^3.3.3",
     "pretty-quick": "^4.0.0",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "husky": {
     "hooks": {
